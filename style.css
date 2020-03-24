@@ -1,0 +1,7 @@
+body {
+    height: 100%;
+    background-image: url("do.jpg");
+
+    background-repeat: no-repeat center;
+    background-size: cover;
+}
