@@ -5,3 +5,23 @@ body {
     background-repeat: no-repeat center;
     background-size: cover;
 }
+
+
+#logInForm {
+    width: 700px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+#signUpForm {
+    width: 700px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
