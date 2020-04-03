@@ -10,11 +10,15 @@ use notes;
 
 CREATE TABLE users (
 user_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-username VARCHAR(100) NOT NULL UNIQUE,
-email VARCHAR(100) NOT NULL,
-userPassword VARCHAR(20) NOT NULL,
-activation_code CHAR
+email VARCHAR
+(100) NOT NULL,
+userPassword VARCHAR(100) NOT NULL
+
 );
+
+drop table users;
+
+select * from users;
 
 
 
@@ -32,16 +36,19 @@ expries DATETIME
 CREATE TABLE forgotPassword(
 forgotPassword_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 user_id INT,
-key_forgotPassword VARCHAR(10),
+key_forgotPassword VARCHAR
+(10),
 time_forgotPassword INT,
-status_forgotPassword VARCHAR(64)
+status_forgotPassword VARCHAR
+(64)
 
 );
 
 CREATE TABLE pictures(
 picture_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 user_id INT,
-file_name VARCHAR(200)
+file_name VARCHAR
+(200)
 );
 
 
@@ -62,6 +69,7 @@ quote_text text
 CREATE TABLE videos(
 video_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 user_id INT,
-url VARCHAR(100)
+url VARCHAR
+(100)
 
 );
