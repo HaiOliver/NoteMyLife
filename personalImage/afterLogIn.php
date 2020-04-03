@@ -6,7 +6,6 @@ include('connection.php') ;
 if(isset($_SESSION['logIn'])){
     $email = $_SESSION['email'];
     $user_id = $_SESSION['logIn'];
-   
 
 }else{
     $email = "user does not exist";
@@ -33,34 +32,29 @@ if(isset($_SESSION['logIn'])){
     <script>
         numberNote = 0
         numberQuote = 0
-        $(document).ready(function(){
-            $("#note"+numberNote).click(function(){
-                noteContent = $("#note"+numberNote).val()
-                noteId = numberNote
-                // start AJAX
-                $.ajax({
-                    type:"POST",
-                    url:"saveNoteOnDB",
-                    data: { nodeId: node_id, noteContent: value  } ,
-                    success:  function(data,status, xhr) ){
-                        alert (status);
-                        if(data =="success"){
-
-                        }
-
-                    }
-                })
-            })
-
-        }
 
         function saveNote(numberNote) {
-            var node_id = numberNote;
-            var value = document.getElementById("note" + numberNote).value;
-            document.getElementById("note1").innerHTML = value;
+            
+            var value = document.getElementById("note" + numberNote).value
+            document.getElementById("note1").innerHTML = value
             createNoteSection(numberNote)
             
-    
+            <?php
+            // add note to database
+            $node_id = numberNote;
+            $content_node = value;
+            $sql = "INSERT INTO noteConent('note_id','user_id','content') 
+            VALUES('$node_id','$user_id','$content_node') ";
+
+            if($myqli->query($sql)=== TRUE){
+                echo "note".$node_id ."added to database";
+            }else{
+                echo "Error: " . $sql . "<br>" . $myqli->error;
+            }
+            $myqli->close();
+            
+            ?>
+
 
 
         }
@@ -82,11 +76,11 @@ if(isset($_SESSION['logIn'])){
 
         function createNoteSection() {
 
-            numberNote = numberNote + 1;
-            var localNumber = numberNote;
+            numberNote = numberNote + 1
+            var localNumber = numberNote
 
-            let i = document.createElement("textarea");
-            i.id = "note" + numberNote ;
+            let i = document.createElement("textarea")
+            i.id = "note" + numberNote
             i.cols = "40"
             i.style.opacity = "0.7"
             i.style.marginTop = "30px"
@@ -120,7 +114,6 @@ if(isset($_SESSION['logIn'])){
             saveBtn.onclick = function () {
                 saveNote(localNumber)
             }
-            
 
 
             // ******Delete Button***********
