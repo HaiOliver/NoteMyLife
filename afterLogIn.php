@@ -52,6 +52,17 @@ if(isset($_SESSION['logIn'])){
         numberNote = <?php echo $numberNote ?>;
         numberQuote = 0
 
+        // Quote section===============================================================
+
+
+
+        //=========================================================================
+        //=====================================================================================
+        
+        
+        
+        // Note section =========================================================
+
         function saveNote(numberNote) {
             
             var value = document.getElementById("note" + numberNote).value;
@@ -183,8 +194,9 @@ if(isset($_SESSION['logIn'])){
 
         }
 
-
-       
+        // ==================================================================================
+        
+       //Main function call everything
         onload = function () {
              createNoteSection();
 
