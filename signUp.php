@@ -23,6 +23,7 @@
     echo "Registration successful...";
     $_SESSION['logIn']= $conn->insert_id;
     $_SESSION['email']= $email;
+    $_SESSION['signUp']= true;
     header('Location: afterLogIn.php');
     exit();
    

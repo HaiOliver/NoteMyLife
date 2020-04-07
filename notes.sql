@@ -56,14 +56,28 @@ CREATE TABLE noteContent(
 note_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 user_id INT,
 content text
+
 );
 
+drop table noteContent;
+select * from noteContent;
+
+insert into noteContent(user_id,content) values (1,"test");
+insert into noteContent(user_id,content) values (1,"test2");
+insert into noteContent(user_id,content) values (1,"test3");
+select * from noteContent ;
+show columns from noteContent;
 
 CREATE TABLE quotes(
 quote_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 user_id INT,
 quote_text text
 );
+
+
+
+
+
 
 
 CREATE TABLE videos(

@@ -53,14 +53,10 @@
                   $("#logInMessage").html("<div class='alert alert-success'> Success Log In</div>");
 
                   // direct after sign up
-                  <?php
-                  echo "reach here";
-                  header('Location: afterLogIn.php');
-                  echo "reach after here";
-                  exit();
+                                 
+                  window.location="afterLogIn.php";
                   
-      
-                  ?>
+          
                     
                 } else if (data =='no'){
                   $("#logInMessage").html("<div class='alert alert-danger'>User have not signed up yet.Please Sign up ! </div>");

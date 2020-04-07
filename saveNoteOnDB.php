@@ -1,21 +1,26 @@
 <?php
 session_start();
 include('connection.php') ;
+// Testing 
+$_SESSION['logIn'] = 1;
+
+
+
 if(isset($_SESSION['logIn'])){
-    $node_id = $_POST['nodeId'];
-    echo $node_id;
-    $content_node = $_POST['noteContent'];;
-    $sql = "INSERT INTO noteContent('note_id','user_id','content') 
-    VALUES('$node_id','$user_id','$content_node') ";
+    $user_id = $_SESSION['logIn'];
+    $content_node = $_POST['noteContent'];
+    $sql = "INSERT INTO noteContent(user_id,content) 
+    VALUES('$user_id','$content_node') ";
     
-    if($myqli->query($sql)=== TRUE){
-        echo "note".$node_id ."added to database";
+    
+    if($mysqli->query($sql)== TRUE){
+        echo "success save Note on DB";
     }else{
-        echo "Error: " . $sql . "<br>" . $myqli->error;
+        echo "Error: " . $sql . "<br>" . $mysqli->error;
     }
-    $myqli->close();
+    $mysqli->close();
 }else{
-    echo "user doesnot log in";
+    echo ("user doesnot log in");
 }
 
 

@@ -1,12 +1,23 @@
 <?php
 session_start();
 include('connection.php') ;
+// testing
+$_SESSION['logIn'] = 1;
+$_SESSION['email'] = "test";
 
+// test
 
+// user exist on Database
 if(isset($_SESSION['logIn'])){
     $email = $_SESSION['email'];
     $user_id = $_SESSION['logIn'];
-   
+    if(isset($_SESSION['signUp'])){
+        $numberNote = 0;
+    }else{
+        $numberNote = $_SESSION['numberNote'];
+    }
+    
+    
 
 }else{
     $email = "user does not exist";
@@ -29,54 +40,75 @@ if(isset($_SESSION['logIn'])){
 
 
     <title>Hello, world!</title>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
-    <script>
-        numberNote = 0
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="myNotes.js"></script>
+
+    <script type="text/Javascript">
+        // set numberNote respond to Database
+        numberNote = <?php echo $numberNote ?>;
         numberQuote = 0
-        $(document).ready(function(){
-            $("#note"+numberNote).click(function(){
-                noteContent = $("#note"+numberNote).val()
-                noteId = numberNote
-                // start AJAX
-                $.ajax({
-                    type:"POST",
-                    url:"saveNoteOnDB",
-                    data: { nodeId: node_id, noteContent: value  } ,
-                    success:  function(data,status, xhr) ){
-                        alert (status);
-                        if(data =="success"){
-
-                        }
-
-                    }
-                })
-            })
-
-        }
 
         function saveNote(numberNote) {
-            var node_id = numberNote;
+            
             var value = document.getElementById("note" + numberNote).value;
             document.getElementById("note1").innerHTML = value;
-            createNoteSection(numberNote)
-            
-    
+            console.log("node value : "+ value)
+            var data = {'noteContent': value} ;
 
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                    console.log("response : "+this.responseText);
+                    }
+            };
+            xhttp.open("POST", "saveNoteOnDB.php" , true);
+            xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            
+            xhttp.send("noteContent="+value);
+
+            // Automatically create new note
+            createNoteSection(numberNote);
+
+        
+        }
+
+        function deleteNoteOnDB(currentNote){
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                    console.log("response in delete() called: "+this.responseText);
+                    }
+            };
+            xhttp.open("POST", "deleteNoteOnDB.php" , true);
+            xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            
+            xhttp.send("node_id="+currentNote);
+
+            //
+            window.alert("Note " + currentNote + " is deleted from deleteNoteOnBD()")
 
         }
 
         function deleteNote(localNumber) {
 
-            console.log("Local number ", localNumber, "in deleteNote call")
+            console.log("Local number in deleteNote call: note"+ localNumber)
             var del = document.getElementById("note" + localNumber)
+            console.log("del value : "+ del);
             var savebtn = document.getElementById("saveButton" + localNumber)
             var delbtn = document.getElementById("deleteButton" + localNumber)
             // set action
             document.getElementById("noteSection").removeChild(del)
             document.getElementById("noteSection").removeChild(savebtn)
             document.getElementById("noteSection").removeChild(delbtn)
-            window.alert("Note " + localNumber + " is deleted")
 
+            // AJAX call
+            deleteNoteOnDB(localNumber);
+            
         }
 
 
@@ -139,11 +171,12 @@ if(isset($_SESSION['logIn'])){
             deleteBtn.className = "btn btn-warning center-block"
 
             document.getElementById("noteSection").appendChild(deleteBtn)
+
+            //Carefull
+            
             deleteBtn.onclick = function () {
                 deleteNote(localNumber)
             }
-
-
             // break line
             let br2 = document.createElement("br")
             document.getElementById("noteSection").appendChild(br2)
@@ -151,69 +184,23 @@ if(isset($_SESSION['logIn'])){
         }
 
 
-        function createBlockQuote(quote, author) {
-            numberQuote += 1
-            // create BlockQuote
-            createQuote = document.createElement("blockquote")
-            createQuote.className = "blockquote text-center"
-
-            // Create p tag
-            createPtag = document.createElement("p")
-            createPtag.className = "mb-0"
-            // Create content for p tag
-            createContent = document.createTextNode(
-                quote)
-            // Add content to p tag
-            createPtag.appendChild(createContent)
-            // Add p tag into blockQuote
-            createQuote.appendChild(createPtag)
-
-            // create Footer & property
-            createFooter = document.createElement("footer")
-            createFooter.className = "blockquote-footer"
-            // content footer
-            contentFooter = document.createTextNode(author)
-            createFooter.appendChild(contentFooter)
-
-            // add footer to createQuote
-            createQuote.appendChild(createFooter)
-
-            document.getElementById("blockQuote").appendChild(createQuote)
-
-
-
-
-        }
-
-        function addNewQuote() {
-            var contentNewQuote = document.getElementById("newQuote").value
-            var newAuthor = document.getElementById("newAuthor").value
-
-            createBlockQuote(contentNewQuote,newAuthor)
-            numberQuote+=1
-
-        }
-
-        function createImage(url){
-            
-            var newImage = document.createElement("img")
-            newImage.src= url
-            newImage.style.height ="300px"
-            newImage.style.width= "300px"
-            newImage.style.marginTop ="20px"
-            document.getElementById("imageSection").appendChild(newImage)
-        }
-
-        function addNewImage(){
-            var newUrl = document.getElementById("newImage").value
-            createImage(newUrl)
-        }
-
        
         onload = function () {
-            createNoteSection();
-            
+             createNoteSection();
 
+            $(function(){
+                for(let i = 1; i<=<?php echo $numberNote ?>;i++ ){
+                    $("#deleteButton"+i).on("click",function(){
+                        console.log("note in Ajax called: "+i);
+                        $("#note"+i).remove();
+                        $("#saveButton"+i).remove();
+                        $("#deleteButton"+i).remove();
+                        // Delete Note From DB
+                        deleteNoteOnDB(i);
+                })
+                    
+            }} )
+        
 
         }
 
@@ -249,7 +236,9 @@ if(isset($_SESSION['logIn'])){
         <div class="row">
             <!-- List to do -->
             <div class="col-sm-3 ">
+                
                 <p class="display-1"> Must do</p>
+                <!-- <div id="noteFromDB"></div> -->
                 <div id="noteSection">
                 </div>
             </div>
@@ -264,46 +253,7 @@ if(isset($_SESSION['logIn'])){
             <!-- video section -->
             <div class="col-sm-3 ">
                 <p class="display-1"> Video </p>
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/tS09NpmwBfw"  allowfullscreen></iframe>
-                </div>
-
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/wnHW6o8WMas"  allowfullscreen></iframe>
-                </div>
-
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/LvHVPgR69EA"  allowfullscreen></iframe>
-                </div>
-
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/26U_seo0a1g"  allowfullscreen></iframe>
-                </div>
-
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/g-jwWYX7Jlo"  allowfullscreen></iframe>
-                </div>
-
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/dOkNkcZ_THA"  allowfullscreen></iframe>
-                </div>
-
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/v7KQsS2kLM4"  allowfullscreen></iframe>
-                </div>
-
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/4gi9y3sTrXE"  allowfullscreen></iframe>
-                </div>
-
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/cTKOwp0UfyM"  allowfullscreen></iframe>
-                </div>
-
-                <div class="embed-responsive embed-responsive-4by3">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/qFaDVPauxAU"  allowfullscreen></iframe>
-                </div>
-
+                
             </div>
             <!-- list Quote -->
             <div class="col-sm-3 ">
@@ -332,9 +282,9 @@ if(isset($_SESSION['logIn'])){
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script>
+    </script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
     </script>
