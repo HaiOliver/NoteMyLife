@@ -8,16 +8,14 @@ $_SESSION['logIn'] = 1;
 $user_id = $_SESSION['logIn'];
 
 if(isset($user_id)){
-    $sql ="SELECT picture_id,file_name from pitures where user_id ='$user_id' " ;
+    $sql ="SELECT picture_id,file_name from pictures where user_id ='$user_id' " ;
     if($result=$mysqli->query($sql)){
         if(mysqli_num_rows($result)>0){
             $_SESSION['numberImage']= mysqli_num_rows($result);
             while($row = mysqli_fetch_assoc($result)){
                 $path = $row['file_name'];
                 $id = $row['picture_id'];
-                
-                // echo "paht: ".$path;
-    
+            
                 echo "
                 <img src='$path' id='image$id' style='height:250px ; width:300px ; marginTop:10px ;'   >
                 " ;

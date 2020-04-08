@@ -38,9 +38,9 @@ $(function () {
 
     // call loadImages
     $.ajax({
-        url: "loadUrl.php",
+        url: "loadImage.php",
         success: function (data, status, xhr) {
-            alert("server response from loadImage.php->myNote.js->afterLogIn.php " + status);
+            alert("server response from loadImage.php->myNote.js->afterLogIn.php " + data);
             $("#blockImage").html(data);
         },
         error: function () {
