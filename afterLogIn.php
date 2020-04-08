@@ -13,8 +13,14 @@ if(isset($_SESSION['logIn'])){
     $user_id = $_SESSION['logIn'];
     if(isset($_SESSION['signUp'])){
         $numberNote = 0;
+        $numberQuote = 0;
+        $numberVideo = 0;
+        $numberImage = 0;
     }else{
         $numberNote = $_SESSION['numberNote'];
+        $numberQuote = $_SESSION['numberQuote'];
+        $numberVideo = $_SESSION['numberVideo'];
+        $numberImage = $_SESSION['numberImage'];
     }
     
     
@@ -50,10 +56,178 @@ if(isset($_SESSION['logIn'])){
     <script type="text/Javascript">
         // set numberNote respond to Database
         numberNote = <?php echo $numberNote ?>;
-        numberQuote = 0
+        numberQuote = <?php echo $numberQuote ?>;
+        numberVideo = <?php echo $numberVideo ?>;
+        numberImage = <?php echo $numberImage ?>;
+
+
+        // Image section===============================
+        function createImage(pathImage,currentNumberImage){
+            createImageTag = document.createElement("img");
+            createImageTag.id = "image"+currentNumberImage;
+            createImageTag.style.height="250px"
+            createImageTag.style.width="300px"
+            createImageTag.style.marginTop="10px"
+            createImageTag.src= pathImage;
+            
+            document.getElementById("blockImage").appendChild(createImageTag);
+
+        }
+
+        function addNewImage(){
+            
+            var currentNumberImage = numberImage + 1
+            var nameImage = document.getElementById("fileToUpload").value
+            // filter Name
+            pathImage = nameImage.replace(/^.*[\\\/]/, '')
+            
+            fullPathImage = "uploads/"+pathImage
+            console.log("fullpathImage : "+ fullPathImage)
+
+        
+            // Save url in Database
+            
+            var xhttp = new XMLHttpRequest();
+            
+            xhttp.onreadystatechange = function(){
+                if(this.readyDtate == 4 && this.status == 200){
+                    pathImage = this.responseText 
+                    alert("pathImage return server: "+ pathImage)
+                }
+            }
+            xhttp.open("POST", "saveImageOnDB.php", true);
+            xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhttp.send("file="+fullPathImage)
+
+            
+            
+            createImage(fullPathImage,currentNumberImage)
+            
+            numberImage+=1
+
+        }
+
+        
+        //==========================================================================
+        
+        // motivational video
+
+        function createMotivationalVideo(url, currentNumberVideo){
+            createIframe = document.createElement("iframe")
+            createIframe.id = "video"+currentNumberVideo
+            createIframe.className = "embed-responsive-item"
+            
+            createIframe.src  = url
+            
+            // create div tag outside Iframe
+            createDiv = document.createElement("div")
+            createDiv.className = "embed-responsive embed-responsive-4by3"
+
+            createDiv.id = "divVideo"+currentNumberVideo
+
+
+
+            // appendChild
+            createDiv.appendChild(createIframe)
+            document.getElementById('blockVideo').appendChild(createDiv);
+            
+
+        }
+
+        function addNewVideo(){
+            
+            var currentNumberVideo = numberVideo + 1
+            var url = document.getElementById("url").value
+           
+            // Save url in Database
+            
+            var xhttp = new XMLHttpRequest();
+            
+            xhttp.onreadystatechange = function(){
+                if(this.readyDtate == 4 && this.status == 200){
+                    console.log("response in addNewVideo(): "+this.responseText);
+                }
+            }
+            xhttp.open("POST", "saveUrlOnDB.php", true);
+            xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhttp.send("link="+url);
+            
+            createMotivationalVideo(url,currentNumberVideo)
+            
+            numberVideo+=1
+
+        }
+
+        // =================================================================
 
         // Quote section===============================================================
+        function createBlockQuote(quote, author, currentNumberQuote) {
+            // numberQuote += 1
+            // create BlockQuote
+            createQuote = document.createElement("blockquote")
+            createQuote.className = "blockquote text-center"
+            // add id
+            createQuote.id = "createQuote"+currentNumberQuote
+            // Create p tag
+            createPtag = document.createElement("p")
+            // add id for quote content
+            createPtag.id = "quoteContent"+currentNumberQuote
+            createPtag.className = "mb-0"
+            // Create content for p tag
+            createContent = document.createTextNode(quote);
 
+           
+            createStrongTag = document.createElement("bold")
+            
+            createStrongTag.appendChild(createContent)
+            // Add content to p tag
+            createPtag.appendChild(createStrongTag)
+            // Add p tag into blockQuote
+            createQuote.appendChild(createPtag)
+
+            // create Footer & property
+            createFooter = document.createElement("footer")
+            // add id
+            createFooter.id = "author" + currentNumberQuote
+            createFooter.className = "blockquote-footer"
+            // content footer
+            contentFooter = document.createTextNode(author)
+            createFooter.appendChild(contentFooter)
+
+            // add footer to createQuote
+            createQuote.appendChild(createFooter)
+
+             // add color && style
+            //  document.getElementById("createQuote"+currentNumberQuote ).style.color = "green";
+            // document.getElementById("createQuote"+currentNumberQuote).style.fontSize = "larger";
+
+            // document.getElementById("blockQuote").appendChild(createQuote)
+
+
+        }
+
+        function addNewQuote() { 
+            var currentNumberQuote = numberQuote + 1
+            var contentNewQuote = document.getElementById("newQuote").value
+            var newAuthor = document.getElementById("newAuthor").value
+
+            // Save quote in Database
+            
+            var xhttp = new XMLHttpRequest();
+            console.log("reach  inside here");
+            xhttp.onreadystatechange = function(){
+                if(this.readyDtate == 4 && this.status == 200){
+                    console.log("response in addNewQuote(): "+this.responseText);
+                }
+            }
+            xhttp.open("POST", "saveQuoteOnDB.php", true);
+            xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhttp.send("quote_id="+currentNumberQuote+"&quote_text="+contentNewQuote+"&author="+newAuthor);
+            
+            createBlockQuote(contentNewQuote,newAuthor,currentNumberQuote)
+            numberQuote+=1
+
+        }
 
 
         //=========================================================================
@@ -73,7 +247,7 @@ if(isset($_SESSION['logIn'])){
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                    console.log("response : "+this.responseText);
+                    console.log("response  in saveNote(): "+this.responseText);
                     }
             };
             xhttp.open("POST", "saveNoteOnDB.php" , true);
@@ -194,11 +368,12 @@ if(isset($_SESSION['logIn'])){
 
         }
 
+
         // ==================================================================================
         
        //Main function call everything
         onload = function () {
-             createNoteSection();
+            createNoteSection();
 
             $(function(){
                 for(let i = 1; i<=<?php echo $numberNote ?>;i++ ){
@@ -248,33 +423,43 @@ if(isset($_SESSION['logIn'])){
         <div class="row">
             <!-- List to do -->
             <div class="col-sm-3 ">
-                
-                <p class="display-1"> Must do</p>
+                <p class="display-1"> Now</p>
                 <!-- <div id="noteFromDB"></div> -->
                 <div id="noteSection">
                 </div>
             </div>
-            <div class="col-sm-3 ">
-                <p class="display-1"> Galleries </p>
-                <div id="imageSection"></div>
-                <textarea id="newImage" rows="2" cols="30" placeholder ="paste url here"></textarea>
-                <br>
-                <button id="addNewImage" onclick="addNewImage()" type="button" class="btn btn-info center-block">Add Image</button>
+            <div class="col-sm-3  ">
+                <p class="display-1"> Picture </p>
+                <div id="blockImage"></div>
+                
+                <!-- <form > -->
+                <!-- <form method="post" action="upload.php" enctype="multipart/form-data"> -->
+                <form enctype="multipart/form-data">
+                    <input type="file" name="file" id="fileToUpload">
+                    <input onclick="addNewImage()"   class="btn btn-dark btn-sm center-block" style="width:120px;" value="Upload Image" name="submit">
+                    <!-- <input id="addImageButton" onclick="addNewImage()"  class="btn btn-dark" type="submit" value="Upload Image" name="submit"> -->
+                </form>
+                
 
             </div>
             <!-- video section -->
             <div class="col-sm-3 ">
                 <p class="display-1"> Video </p>
-                
+                <div id='blockVideo' ></div>
+                <textarea name="url" id="url" rows="4" cols="35" placeholder ="add URL youtube here && Remember add embed tag && remove watch "></textarea>
+                <br>
+                <button id="addNewVideo" onclick="addNewVideo()" type="button" class="btn btn-info center-block">Add new Video</button>
             </div>
             <!-- list Quote -->
             <div class="col-sm-3 ">
                 <p class="display-1"> Quotes</p>
                 <div id="blockQuote"></div>
+
                 <div class="d-flex flex-column">
-                <textarea id = "newQuote" rows="1" cols="30" placeholder="add quote here"></textarea>
+                
+                <textarea name="quoteContent" id = "newQuote" rows="1" cols="30" placeholder="add quote here"></textarea>
                 <br>
-                <textarea id="newAuthor" rows="1" cols="20" placeholder ="add author here"></textarea>
+                <textarea name="authorName" id="newAuthor" rows="1" cols="20" placeholder ="add author here"></textarea>
                 <br>
                 <button id="addNewQuote" onclick="addNewQuote()" type="button" class="btn btn-info center-block">Add new quote</button>
 
@@ -294,9 +479,7 @@ if(isset($_SESSION['logIn'])){
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-    </script> -->
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
     </script>
@@ -306,9 +489,3 @@ if(isset($_SESSION['logIn'])){
 </body>
 
 </html>
-<?php
-// }else{
-//     header("location:index.php");
-// }
-
-?>

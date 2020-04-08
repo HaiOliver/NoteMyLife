@@ -19,144 +19,6 @@
         numberNote = 0
         numberQuote = 0
 
-        function saveNote(numberNote) {
-            var value = document.getElementById("note" + numberNote).value
-            document.getElementById("note1").innerHTML = value
-            createNoteSection(numberNote)
-
-
-        }
-
-        function deleteNote(localNumber) {
-
-            console.log("Local number ", localNumber, "in deleteNote call")
-            var del = document.getElementById("note" + localNumber)
-            var savebtn = document.getElementById("saveButton" + localNumber)
-            var delbtn = document.getElementById("deleteButton" + localNumber)
-            // set action
-            document.getElementById("noteSection").removeChild(del)
-            document.getElementById("noteSection").removeChild(savebtn)
-            document.getElementById("noteSection").removeChild(delbtn)
-            window.alert("Note " + localNumber + " is deleted")
-
-        }
-
-
-        function createNoteSection() {
-
-
-
-            numberNote = numberNote + 1
-            var localNumber = numberNote
-
-            let i = document.createElement("textarea")
-            i.id = "note" + numberNote
-            i.cols = "40"
-            i.style.opacity = "0.7"
-            i.style.marginTop = "30px"
-            i.rows = "7"
-
-            console.log(i.id, "is created")
-
-            document.getElementById("noteSection").appendChild(i)
-            // break line
-            let br = document.createElement("br")
-            document.getElementById("noteSection").appendChild(br)
-            //Save Button
-            let saveBtn = document.createElement("button")
-            //Add Save to button
-            var addSave = document.createTextNode("Save")
-            // Add Save word into button  
-            saveBtn.appendChild(addSave)
-
-            // saveBtn.id = "saveButton" + numberNote
-            saveBtn.id = "saveButton" + localNumber
-            saveBtn.style.height = "50px"
-            saveBtn.style.width = "100px"
-            saveBtn.style.marginLeft = "30px"
-
-            saveBtn.className = "btn btn-success center-block"
-            document.getElementById("noteSection").appendChild(saveBtn)
-
-            console.log("saveButton number ", saveBtn.id)
-
-            //Set onlick event
-            saveBtn.onclick = function () {
-                saveNote(localNumber)
-            }
-
-
-            // ******Delete Button***********
-            let deleteBtn = document.createElement("button")
-            let addDelete = document.createTextNode("Delete")
-            deleteBtn.appendChild(addDelete)
-            deleteBtn.style.marginLeft = "10px"
-            deleteBtn.style.height = "50px"
-            deleteBtn.style.width = "100px"
-            // deleteBtn.id = "deleteButton" + numberNote
-
-            deleteBtn.id = "deleteButton" + localNumber
-
-            console.log("deleteButton number ", deleteBtn.id)
-
-            deleteBtn.className = "btn btn-warning center-block"
-
-            document.getElementById("noteSection").appendChild(deleteBtn)
-            deleteBtn.onclick = function () {
-                deleteNote(localNumber)
-            }
-
-
-            // break line
-            let br2 = document.createElement("br")
-            document.getElementById("noteSection").appendChild(br2)
-
-        }
-
-
-        function createBlockQuote(quote, author) {
-            numberQuote += 1
-            // create BlockQuote
-            createQuote = document.createElement("blockquote")
-            createQuote.className = "blockquote text-center"
-
-            // Create p tag
-            createPtag = document.createElement("p")
-            createPtag.className = "mb-0"
-            // Create content for p tag
-            createContent = document.createTextNode(
-                quote)
-            // Add content to p tag
-            createPtag.appendChild(createContent)
-            // Add p tag into blockQuote
-            createQuote.appendChild(createPtag)
-
-            // create Footer & property
-            createFooter = document.createElement("footer")
-            createFooter.className = "blockquote-footer"
-            // content footer
-            contentFooter = document.createTextNode(author)
-            createFooter.appendChild(contentFooter)
-
-            // add footer to createQuote
-            createQuote.appendChild(createFooter)
-
-            document.getElementById("blockQuote").appendChild(createQuote)
-
-
-
-
-        }
-
-        function addNewQuote() {
-            var contentNewQuote = document.getElementById("newQuote").value
-            var newAuthor = document.getElementById("newAuthor").value
-
-            createBlockQuote(contentNewQuote,newAuthor)
-            numberQuote+=1
-
-        }
-
         function createImage(url){
             
             var newImage = document.createElement("img")
@@ -175,25 +37,7 @@
        
         onload = function () {
             createNoteSection();
-            var listQuote = [
-                "I think being in love with life is a key to eternal youth.",
-                "You’re only here for a short visit. Don’t hurry, don’t worry. And be sure to smell the flowers along the way.",
-                "A man who dares to waste one hour of time has not discovered the value of life.",
-                "If life were predictable it would cease to be life, and be without flavor.",
-                "All life is an experiment. The more experiments you make the better.",
-                "All of life is peaks and valleys. Don’t let the peaks get too high and the valleys too low.",
-                "Find ecstasy in life; the mere sense of living is joy enough."
 
-
-            ]
-            var listAuthor = ["Doug Hutchison", "Walter Hagen", "Charles Darwin", "Eleanor Roosevelt",
-                "Ralph Waldo Emerson", "John Wooden", "Emily Dickinson"
-
-            ]
-            for (var i = 0; i < listQuote.length; i++) {
-                numberQuote+=1
-                createBlockQuote(listQuote[i], listAuthor[i])
-            }
             
             var listImages = [
                 "personalImage/0.jpg",
@@ -289,6 +133,7 @@
 
                 <div class="embed-responsive embed-responsive-4by3">
                     <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/cTKOwp0UfyM"  allowfullscreen></iframe>
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/qFaDVPauxAU"  allowfullscreen></iframe>
                 </div>
 
                 <div class="embed-responsive embed-responsive-4by3">

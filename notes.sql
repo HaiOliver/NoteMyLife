@@ -16,6 +16,9 @@ userPassword VARCHAR(100) NOT NULL
 
 );
 
+insert into users(email,userPassword) values("test",123132131);
+
+
 drop table users;
 
 select * from users;
@@ -51,6 +54,10 @@ file_name VARCHAR
 (200)
 );
 
+select * from pictures;
+
+
+
 
 CREATE TABLE noteContent(
 note_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -68,22 +75,31 @@ insert into noteContent(user_id,content) values (1,"test3");
 select * from noteContent ;
 show columns from noteContent;
 
+
+
 CREATE TABLE quotes(
 quote_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 user_id INT,
+author text,
 quote_text text
 );
 
-
-
-
-
+drop table quotes;
+insert into quotes(user_id,author,quote_text)values(1,"Oliver","never give up");
+insert into quotes(user_id,author,quote_text)values(2,"Oliv"," give up");
+insert into quotes(user_id,author,quote_text)values(1,"Oivr","never ge up");
+insert into quotes(user_id,author,quote_text)values(1,"Oler","neve give up");
 
 
 CREATE TABLE videos(
 video_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 user_id INT,
-url VARCHAR
+link VARCHAR
 (100)
 
 );
+
+select * from videos;
+insert into videos(user_id,link) values(1,"https://www.youtube.com/embed/AIenodWtwJ0");
+
+drop table videos;
