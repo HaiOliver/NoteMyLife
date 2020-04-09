@@ -3,15 +3,21 @@ session_start();
 include("connection.php");
 
 // Testing 
-$_SESSION['logIn'] = 1;
+// $_SESSION['logIn'] = 1;
+echo "SESSION['logIn'] loadNote.php will be: ".$_SESSION['logIn']."     need something";
+
+
 
 $user_id = $_SESSION['logIn'];
 
-if(isset($_SESSION['logIn'])){
+if(isset($user_id)){
     $sql = "SELECT note_id,content from noteContent where user_id ='$user_id'";
     if($result= mysqli_query($mysqli,$sql)){
         if(mysqli_num_rows($result)>0){
             $_SESSION['numberNote'] = mysqli_num_rows($result);
+            echo " <div class='alert alert-success' role='alert'>
+            You have total ". $_SESSION['numberNote']." notes so far
+          </div> ";
             while($row = mysqli_fetch_assoc($result)){
                 $noteNumberFromDB = (int) $row['note_id'];
                 
@@ -26,12 +32,13 @@ if(isset($_SESSION['logIn'])){
             }
             
         }else{
-            echo "mysqli_num_rows return 0";
+            echo "<div class='alert alert-secondary' role='alert'> You havenot add any notes yet </div>";
         }
     }else{
         echo"mysqli_query cannot return object";
     }
 }else{
+    echo "user_id in loadNote.php".$user_id;
     echo "no user id in DB";
 }
 

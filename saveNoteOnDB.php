@@ -2,7 +2,7 @@
 session_start();
 include('connection.php') ;
 // Testing 
-$_SESSION['logIn'] = 1;
+// $_SESSION['logIn'] = 1;
 
 
 

@@ -3,7 +3,9 @@ session_start();
 include("connection.php");
 
 // Testing 
-$_SESSION['logIn'] = 1;
+// $_SESSION['logIn'] = 1;
+echo "SESSION['logIn'] loadImage.php will be: ".$_SESSION['logIn']."     need something";
+
 
 $user_id = $_SESSION['logIn'];
 
@@ -11,7 +13,10 @@ if(isset($user_id)){
     $sql ="SELECT picture_id,file_name from pictures where user_id ='$user_id' " ;
     if($result=$mysqli->query($sql)){
         if(mysqli_num_rows($result)>0){
-            $_SESSION['numberImage']= mysqli_num_rows($result);
+            $_SESSION['numberImage'] = mysqli_num_rows($result);
+            echo " <div class='alert alert-success' role='alert'>
+            You have total ". $_SESSION['numberImage']." images so far 
+          </div> ";
             while($row = mysqli_fetch_assoc($result)){
                 $path = $row['file_name'];
                 $id = $row['picture_id'];
@@ -21,6 +26,8 @@ if(isset($user_id)){
                 " ;
 
             }
+        }else{
+            echo "<div class='alert alert-info' role='alert'> You havenot add any images yet </div>";
         }
         
     }else{
@@ -28,6 +35,7 @@ if(isset($user_id)){
     }
 
 }else{
+    echo "user_id in loadImage.php".$user_id;
     echo "no quote from DB, loadimage.php fail";
 }
 

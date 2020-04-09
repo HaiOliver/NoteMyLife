@@ -1,38 +1,66 @@
 <?php
-session_start();
-include('connection.php') ;
+// session_start();
+//include('connection.php') ;
 // testing
-$_SESSION['logIn'] = 1;
-$_SESSION['email'] = "test";
+// $_SESSION['logIn'] = 1;
+// $_SESSION['email'] = "test";
 
 // test
-
-// user exist on Database
-if(isset($_SESSION['logIn'])){
-    $email = $_SESSION['email'];
-    $user_id = $_SESSION['logIn'];
-    if(isset($_SESSION['signUp'])){
-        $numberNote = 0;
-        $numberQuote = 0;
-        $numberVideo = 0;
-        $numberImage = 0;
-    }else{
-        $numberNote = $_SESSION['numberNote'];
-        $numberQuote = $_SESSION['numberQuote'];
-        $numberVideo = $_SESSION['numberVideo'];
-        $numberImage = $_SESSION['numberImage'];
-    }
-    
-    
-
-}else{
-    $email = "user does not exist";
-}
 ?>
-<!doctype html>
+ <?php
+// // user exist on Database
+// if(isset($_SESSION['logIn'])){
+//     $email = $_SESSION['email'];
+//     $user_id = $_SESSION['logIn'];
+//     if(isset($_SESSION['signUp'])){
+//         $numberNote = 0;
+//         $numberQuote = 0;
+//         $numberVideo = 0;
+//         $numberImage = 0;
+//     }else{
+//         //  if sign up and they dont create any notes yet 
+//         if(isset($_SESSION['numberNote'])){
+//             $numberNote = $_SESSION['numberNote'];
+//         }else{
+//             $numberNote = 0; 
+//         }
+
+//         if(isset($_SESSION['numberQuote'])){
+//             $numberQuote = $_SESSION['numberQuote'];
+//         }else{
+//             $numberQuote = 0; 
+//         }
+//         if(isset($_SESSION['numberVideo'])){
+//             $numberVideo = $_SESSION['numberVideo'];
+//         }else{
+//             $numberVideo =0 ;
+//         }
+//         if(isset($_SESSION['numberImage'])){
+//             $numberImage = $_SESSION['numberImage'];
+//         }else{
+//             $numberImage =0;
+//         }
+        
+//         // $numberQuote = $_SESSION['numberQuote'];
+//         // $numberVideo = $_SESSION['numberVideo'];
+//         // $numberImage = $_SESSION['numberImage'];
+//     }
+    
+    
+
+// }else{
+//     $email = "user does not exist";
+// }
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="myNotes.js"></script>
     <!-- Required meta tags -->
     <meta charset="utf-8">
 
@@ -47,12 +75,58 @@ if(isset($_SESSION['logIn'])){
 
     <title>Hello, world!</title>
     
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="myNotes.js"></script>
+    <script src="myNotes.js"></script> -->
+    <?php
+    session_start();
+// user exist on Database
+if(isset($_SESSION['logIn'])){
+    $email = $_SESSION['email'];
+    $user_id = $_SESSION['logIn'];
+    if(isset($_SESSION['signUp'])){
+        $numberNote = 0;
+        $numberQuote = 0;
+        $numberVideo = 0;
+        $numberImage = 0;
+    }else{
+        //  if sign up and they dont create any notes yet 
+        if(isset($_SESSION['numberNote'])){
+            $numberNote = $_SESSION['numberNote'];
+        }else{
+            $numberNote = 0; 
+        }
 
+        if(isset($_SESSION['numberQuote'])){
+            $numberQuote = $_SESSION['numberQuote'];
+        }else{
+            $numberQuote = 0; 
+        }
+        if(isset($_SESSION['numberVideo'])){
+            $numberVideo = $_SESSION['numberVideo'];
+        }else{
+            $numberVideo =0 ;
+        }
+        if(isset($_SESSION['numberImage'])){
+            $numberImage = $_SESSION['numberImage'];
+        }else{
+            $numberImage =0;
+        }
+        
+        // $numberQuote = $_SESSION['numberQuote'];
+        // $numberVideo = $_SESSION['numberVideo'];
+        // $numberImage = $_SESSION['numberImage'];
+    }
+    
+    
+
+}else{
+    $email = "user does not exist";
+}
+
+?>
     <script type="text/Javascript">
         // set numberNote respond to Database
         numberNote = <?php echo $numberNote ?>;
@@ -177,11 +251,11 @@ if(isset($_SESSION['logIn'])){
             createContent = document.createTextNode(quote);
 
            
-            createStrongTag = document.createElement("bold")
+            // createStrongTag = document.createElement("bold")
             
-            createStrongTag.appendChild(createContent)
+            // createStrongTag.appendChild(createContent)
             // Add content to p tag
-            createPtag.appendChild(createStrongTag)
+            createPtag.appendChild(createContent)
             // Add p tag into blockQuote
             createQuote.appendChild(createPtag)
 
@@ -197,24 +271,25 @@ if(isset($_SESSION['logIn'])){
             // add footer to createQuote
             createQuote.appendChild(createFooter)
 
-             // add color && style
-            //  document.getElementById("createQuote"+currentNumberQuote ).style.color = "green";
-            // document.getElementById("createQuote"+currentNumberQuote).style.fontSize = "larger";
-
-            // document.getElementById("blockQuote").appendChild(createQuote)
+            console.log("ATTENTION !!! should create new quote: "+currentNumberQuote)
+            document.getElementById("blockQuote").appendChild(createQuote)
 
 
         }
 
         function addNewQuote() { 
+            console.log("number of row in databsase:"+ numberQuote)
             var currentNumberQuote = numberQuote + 1
             var contentNewQuote = document.getElementById("newQuote").value
             var newAuthor = document.getElementById("newAuthor").value
+            createBlockQuote(contentNewQuote,newAuthor,currentNumberQuote)
+            // append to page
+            
 
             // Save quote in Database
             
             var xhttp = new XMLHttpRequest();
-            console.log("reach  inside here");
+            
             xhttp.onreadystatechange = function(){
                 if(this.readyDtate == 4 && this.status == 200){
                     console.log("response in addNewQuote(): "+this.responseText);
@@ -224,12 +299,28 @@ if(isset($_SESSION['logIn'])){
             xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhttp.send("quote_id="+currentNumberQuote+"&quote_text="+contentNewQuote+"&author="+newAuthor);
             
-            createBlockQuote(contentNewQuote,newAuthor,currentNumberQuote)
-            numberQuote+=1
+            //createBlockQuote(contentNewQuote,newAuthor,currentNumberQuote)
+            console.log(" local currentNumberQuote before function: "+ currentNumberQuote)
+            console.log("gloabl numberQuote  before function: "+ numberQuote)
+            //formatQuote(currentNumberQuote)
+            console.log("must same number: "+ currentNumberQuote)
+            numberQuote +=1
+            console.log("global update be: "+ numberQuote)
+            console.log("global next quote: "+ (numberQuote+1));
 
         }
 
+        function formatQuote(currentNumberQuote){
+             // add color && style
+            document.getElementById("createQuote"+currentNumberQuote ).style.color = "orange";
+            document.getElementById("createQuote"+currentNumberQuote ).style.fontWeight = "900";
+            document.getElementById("createQuote"+currentNumberQuote).style.fontSize = "xx-larger";
 
+            document.getElementById("author"+currentNumberQuote ).style.color = "yellow";
+            document.getElementById("author"+currentNumberQuote ).style.fontWeight = "400";
+            document.getElementById("author"+currentNumberQuote).style.fontSize = "larger";
+            
+        }
         //=========================================================================
         //=====================================================================================
         
@@ -404,11 +495,12 @@ if(isset($_SESSION['logIn'])){
             </div>
             <div class="row">
                 <a class="navbar-brand float-right" href="#">Log in as <?php 
+
                 echo $email;
                 
                 ?></a>
-                <!-- <a class="navbar-brand float-right" href="logOut.php">Log out</a> -->
-                <a class="navbar-brand float-right" >Log out</a>
+                <a class="navbar-brand float-right" href="logOut.php">Log out</a>
+                <!-- <a class="navbar-brand float-right" >Log out</a> -->
             </div>
         </div>
         
@@ -420,6 +512,14 @@ if(isset($_SESSION['logIn'])){
 
     <!-- note start here -->
     <div class="container-fluid">
+        <div class="alert alert-danger center-block">Welcome <?php
+        if(isset($_SESSION['signUp'])){
+            echo"new user. Start create your own notes. Have fun !!";
+        }else{
+            echo "back! ".$email;
+        } 
+
+?> </div>
         <div class="row">
             <!-- List to do -->
             <div class="col-sm-3 ">
@@ -439,8 +539,6 @@ if(isset($_SESSION['logIn'])){
                     <input onclick="addNewImage()"   class="btn btn-dark btn-sm center-block" style="width:120px;" value="Upload Image" name="submit">
                     <!-- <input id="addImageButton" onclick="addNewImage()"  class="btn btn-dark" type="submit" value="Upload Image" name="submit"> -->
                 </form>
-                
-
             </div>
             <!-- video section -->
             <div class="col-sm-3 ">
@@ -461,7 +559,7 @@ if(isset($_SESSION['logIn'])){
                 <br>
                 <textarea name="authorName" id="newAuthor" rows="1" cols="20" placeholder ="add author here"></textarea>
                 <br>
-                <button id="addNewQuote" onclick="addNewQuote()" type="button" class="btn btn-info center-block">Add new quote</button>
+                <button id="addNewQuote" onclick="window.addNewQuote();" type="button" class="btn btn-info center-block">Add new quote</button>
 
                 </div>
 

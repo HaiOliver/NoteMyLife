@@ -3,7 +3,7 @@ $(function () {
     $.ajax({
         url: "loadNote.php",
         success: function (data, status, xhr) {
-            alert("server response from loadNote.php->myNote.js->afterLogIn.php " + status);
+            //alert("server response from loadNote.php->myNote.js->afterLogIn.php " + data);
             $("#noteSection").html(data);
         },
         error: function () {
@@ -15,7 +15,7 @@ $(function () {
     $.ajax({
         url: "loadQuote.php",
         success: function (data, status, xhr) {
-            alert("server response from loadQuote.php->myNote.js->afterLogIn.php " + status);
+            alert("server response from loadQuote.php->myNote.js->afterLogIn.php " + data);
             $("#blockQuote").html(data);
 
         },
@@ -28,7 +28,7 @@ $(function () {
     $.ajax({
         url: "loadUrl.php",
         success: function (data, status, xhr) {
-            alert("server response from loadUrl.php->myNote.js->afterLogIn.php " + status);
+            //alert("server response from loadUrl.php->myNote.js->afterLogIn.php " + data);
             $("#blockVideo").html(data);
         },
         error: function () {
@@ -40,7 +40,7 @@ $(function () {
     $.ajax({
         url: "loadImage.php",
         success: function (data, status, xhr) {
-            alert("server response from loadImage.php->myNote.js->afterLogIn.php " + data);
+            //alert("server response from loadImage.php->myNote.js->afterLogIn.php " + data);
             $("#blockImage").html(data);
         },
         error: function () {

@@ -97,15 +97,15 @@
         </div>
     </nav>
     <?php 
-        // if(isset($_GET['logOut'])){
-        //   if($_GET['logOut']){
-        //     echo "<div class='alert alert-success'>
-        //     <a class='close' data_dismiss='alert' aria-label='close'></a>
-        //     <strong>You have been loged out successfully</strong></div>";
-            
+        if(isset($_GET['logOut'])){
+          if($_GET['logOut']){
+            echo "<div class='alert alert-success alert-dismissible '>
+            <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+            <strong>You have been loged out successfully</strong>
+            </div>";
           
-        //   }
-        // }
+          }
+        }
     
     ?>
      <!-- Title note -->

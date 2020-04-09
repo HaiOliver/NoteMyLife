@@ -3,7 +3,7 @@ session_start();
 include("connection.php");
 
 // Testing 
-$_SESSION['logIn'] = 1;
+// $_SESSION['logIn'] = 1;
 
 if(isset($_SESSION['logIn'])){
     $user_id = $_SESSION['logIn'];
