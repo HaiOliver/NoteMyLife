@@ -102,15 +102,15 @@ if(isset($_SESSION['logIn'])){
 ?>
     <script type="text/Javascript">
         // set numberNote respond to Database
-        numberNote = <?php echo $numberNote ?>;
+        numberNote = 0;
         // var numberQuote =  echo $numberQuote ;
 
 
-        var numberQuote = <?php echo $_SESSION['numberQuote'] ?>;
+        numberQuote = 0;
        
         
-        numberVideo = <?php echo $numberVideo ?>;
-        numberImage = <?php echo $numberImage ?>;
+        numberVideo = 0;
+        numberImage = 0;
 
 
     // Testin =======================================================
@@ -297,13 +297,9 @@ if(isset($_SESSION['logIn'])){
             
             formatQuote(currentNumberQuote)
             
-            
-            
             //numberQuote +=1
             ///// Tesing ==============================
             numberQuote = currentNumberQuote
-
-
             console.log("global update END FUNCTION be: "+ numberQuote)
             
 
@@ -311,11 +307,11 @@ if(isset($_SESSION['logIn'])){
 
         function formatQuote(currentNumberQuote){
              // add color && style
-            document.getElementById("createQuote"+currentNumberQuote ).style.color = "orange";
+            document.getElementById("createQuote"+currentNumberQuote ).style.color = "lime";
             document.getElementById("createQuote"+currentNumberQuote ).style.fontWeight = "900";
-            document.getElementById("createQuote"+currentNumberQuote).style.fontSize = "xx-larger";
+            document.getElementById("createQuote"+currentNumberQuote).style.fontSize = "170%";
 
-            document.getElementById("author"+currentNumberQuote ).style.color = "yellow";
+            document.getElementById("author"+currentNumberQuote ).style.color = "orange";
             document.getElementById("author"+currentNumberQuote ).style.fontWeight = "400";
             document.getElementById("author"+currentNumberQuote).style.fontSize = "larger";
             
@@ -464,7 +460,7 @@ if(isset($_SESSION['logIn'])){
             createNoteSection();
 
             $(function(){
-                for(let i = 1; i<=<?php echo $numberNote ?>;i++ ){
+                for(let i = 1; i<= numberNote ;i++ ){
                     $("#deleteButton"+i).on("click",function(){
                         console.log("note in Ajax called: "+i);
                         $("#note"+i).remove();
