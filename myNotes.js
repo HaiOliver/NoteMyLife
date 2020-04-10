@@ -21,7 +21,8 @@ $(function () {
         },
         error: function () {
             alert("success fail from ajax call in loadQuote.php->myNote.js");
-        }
+        },
+        async: false
     })
 
     // call loadUrl.php

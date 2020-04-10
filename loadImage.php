@@ -4,7 +4,7 @@ include("connection.php");
 
 // Testing 
 // $_SESSION['logIn'] = 1;
-echo "SESSION['logIn'] loadImage.php will be: ".$_SESSION['logIn']."     need something";
+
 
 
 $user_id = $_SESSION['logIn'];

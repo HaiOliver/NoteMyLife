@@ -1,56 +1,6 @@
 <?php
-// session_start();
-//include('connection.php') ;
-// testing
-// $_SESSION['logIn'] = 1;
-// $_SESSION['email'] = "test";
+session_start();
 
-// test
-?>
- <?php
-// // user exist on Database
-// if(isset($_SESSION['logIn'])){
-//     $email = $_SESSION['email'];
-//     $user_id = $_SESSION['logIn'];
-//     if(isset($_SESSION['signUp'])){
-//         $numberNote = 0;
-//         $numberQuote = 0;
-//         $numberVideo = 0;
-//         $numberImage = 0;
-//     }else{
-//         //  if sign up and they dont create any notes yet 
-//         if(isset($_SESSION['numberNote'])){
-//             $numberNote = $_SESSION['numberNote'];
-//         }else{
-//             $numberNote = 0; 
-//         }
-
-//         if(isset($_SESSION['numberQuote'])){
-//             $numberQuote = $_SESSION['numberQuote'];
-//         }else{
-//             $numberQuote = 0; 
-//         }
-//         if(isset($_SESSION['numberVideo'])){
-//             $numberVideo = $_SESSION['numberVideo'];
-//         }else{
-//             $numberVideo =0 ;
-//         }
-//         if(isset($_SESSION['numberImage'])){
-//             $numberImage = $_SESSION['numberImage'];
-//         }else{
-//             $numberImage =0;
-//         }
-        
-//         // $numberQuote = $_SESSION['numberQuote'];
-//         // $numberVideo = $_SESSION['numberVideo'];
-//         // $numberImage = $_SESSION['numberImage'];
-//     }
-    
-    
-
-// }else{
-//     $email = "user does not exist";
-// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +10,17 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="myNotes.js"></script>
+     
+    <script src='loadNumber.js'>
+        var testAjax = giveUp();
+        alert("test AJAX"+testAjax)
+        console.log("result in afterLogIn.php: "+ testAjax)
+
+       
+    </script> 
+     <!-- IMPORTANT Load myNotes.js -->
+    <script src='myNotes.js'></script>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
 
@@ -74,15 +34,18 @@
 
 
     <title>Hello, world!</title>
-    
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="myNotes.js"></script> -->
+    <!-- <script src="myNotes.js"></script> -->
+
     <?php
-    session_start();
-// user exist on Database
+
+    // user exist on Database
+    // session_start();
+    $message = "session_start after ajax";
+echo "<script type='text/javascript'>alert('$message');</script>";
 if(isset($_SESSION['logIn'])){
     $email = $_SESSION['email'];
     $user_id = $_SESSION['logIn'];
@@ -91,34 +54,44 @@ if(isset($_SESSION['logIn'])){
         $numberQuote = 0;
         $numberVideo = 0;
         $numberImage = 0;
-    }else{
-        //  if sign up and they dont create any notes yet 
-        if(isset($_SESSION['numberNote'])){
-            $numberNote = $_SESSION['numberNote'];
-        }else{
-            $numberNote = 0; 
-        }
-
-        if(isset($_SESSION['numberQuote'])){
-            $numberQuote = $_SESSION['numberQuote'];
-        }else{
-            $numberQuote = 0; 
-        }
-        if(isset($_SESSION['numberVideo'])){
-            $numberVideo = $_SESSION['numberVideo'];
-        }else{
-            $numberVideo =0 ;
-        }
-        if(isset($_SESSION['numberImage'])){
-            $numberImage = $_SESSION['numberImage'];
-        }else{
-            $numberImage =0;
-        }
-        
-        // $numberQuote = $_SESSION['numberQuote'];
-        // $numberVideo = $_SESSION['numberVideo'];
-        // $numberImage = $_SESSION['numberImage'];
     }
+    // else{
+    //     //  if sign up and they dont create any notes yet 
+    //     if(isset($_SESSION['numberNote'])){
+    //         $numberNote = $_SESSION['numberNote'];
+            
+    //     }else{
+    //         $numberNote = 0; 
+    //     }
+
+    //     // if(isset($_SESSION['numberQuote'])){
+    //     //     $numberQuote = $_SESSION['numberQuote'];
+    //     //     echo "<script>alert(". $numberQuote .")</script>";
+            
+    //     // }else{
+    //     //     $numberQuote = 0; 
+    //     //     echo "<script>alert(". $numberQuote ." in else)</script>";
+    //     // }
+
+    //     if(!isset($_SESSION['numberQuote'])){
+    //         $_SESSION['numberQuote'] = 0 ;
+    //     }
+        
+    //     if(isset($_SESSION['numberVideo'])){
+    //         $numberVideo = $_SESSION['numberVideo'];
+    //     }else{
+    //         $numberVideo =0 ;
+    //     }
+    //     if(isset($_SESSION['numberImage'])){
+    //         $numberImage = $_SESSION['numberImage'];
+    //     }else{
+    //         $numberImage =0;
+    //     }
+
+    //     // Tesitng =================
+        
+        
+    // }
     
     
 
@@ -130,10 +103,32 @@ if(isset($_SESSION['logIn'])){
     <script type="text/Javascript">
         // set numberNote respond to Database
         numberNote = <?php echo $numberNote ?>;
-        numberQuote = <?php echo $numberQuote ?>;
+        // var numberQuote =  echo $numberQuote ;
+
+
+        var numberQuote = <?php echo $_SESSION['numberQuote'] ?>;
+       
+        
         numberVideo = <?php echo $numberVideo ?>;
         numberImage = <?php echo $numberImage ?>;
 
+
+    // Testin =======================================================
+    // Grab from data base
+        function callBack(data) {
+            
+            convertObject = JSON.parse(data)
+            numberNote = convertObject[0];
+            numberQuote = convertObject[1];
+            numberVideo = convertObject[2];
+            numberImage = convertObject[3];
+
+            console.log("callBack note: "+numberNote);
+            console.log("callBack quote: "+numberQuote);
+            console.log("callBack video: "+numberVideo);
+            console.log("callBack Image: "+numberImage);
+            
+}
 
         // Image section===============================
         function createImage(pathImage,currentNumberImage){
@@ -278,8 +273,7 @@ if(isset($_SESSION['logIn'])){
         }
 
         function addNewQuote() { 
-            console.log("number of row in databsase:"+ numberQuote)
-            var currentNumberQuote = numberQuote + 1
+            var currentNumberQuote = numberQuote + 1   
             var contentNewQuote = document.getElementById("newQuote").value
             var newAuthor = document.getElementById("newAuthor").value
             createBlockQuote(contentNewQuote,newAuthor,currentNumberQuote)
@@ -300,13 +294,18 @@ if(isset($_SESSION['logIn'])){
             xhttp.send("quote_id="+currentNumberQuote+"&quote_text="+contentNewQuote+"&author="+newAuthor);
             
             //createBlockQuote(contentNewQuote,newAuthor,currentNumberQuote)
-            console.log(" local currentNumberQuote before function: "+ currentNumberQuote)
-            console.log("gloabl numberQuote  before function: "+ numberQuote)
-            //formatQuote(currentNumberQuote)
-            console.log("must same number: "+ currentNumberQuote)
-            numberQuote +=1
-            console.log("global update be: "+ numberQuote)
-            console.log("global next quote: "+ (numberQuote+1));
+            
+            formatQuote(currentNumberQuote)
+            
+            
+            
+            //numberQuote +=1
+            ///// Tesing ==============================
+            numberQuote = currentNumberQuote
+
+
+            console.log("global update END FUNCTION be: "+ numberQuote)
+            
 
         }
 
@@ -331,8 +330,8 @@ if(isset($_SESSION['logIn'])){
         function saveNote(numberNote) {
             
             var value = document.getElementById("note" + numberNote).value;
-            document.getElementById("note1").innerHTML = value;
-            console.log("node value : "+ value)
+           
+            console.log("node value in saveNote : "+ value)
             var data = {'noteContent': value} ;
 
             var xhttp = new XMLHttpRequest();
@@ -392,7 +391,7 @@ if(isset($_SESSION['logIn'])){
 
             numberNote = numberNote + 1;
             var localNumber = numberNote;
-
+            
             let i = document.createElement("textarea");
             i.id = "note" + numberNote ;
             i.cols = "40"
@@ -429,8 +428,6 @@ if(isset($_SESSION['logIn'])){
                 saveNote(localNumber)
             }
             
-
-
             // ******Delete Button***********
             let deleteBtn = document.createElement("button")
             let addDelete = document.createTextNode("Delete")

@@ -5,7 +5,7 @@ include("connection.php");
 
 // Testing 
 // $_SESSION['logIn'] = 1;
-echo "SESSION['logIn'] loadUrl.php will be: ".$_SESSION['logIn']."     need something";
+
 $user_id = $_SESSION['logIn'];
 
 if(isset($user_id)){

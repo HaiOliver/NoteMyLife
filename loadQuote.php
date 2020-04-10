@@ -4,14 +4,17 @@ include("connection.php");
 
 // Testing 
 // $_SESSION['logIn'] = 1;
- echo "SESSION['logIn'] loadQuote.php will be: ".$_SESSION['logIn']."     need something";
+
 $user_id = $_SESSION['logIn'];
+
+
 
 if(isset($user_id)){
     $sql ="SELECT quote_id,author,quote_text from quotes where user_id ='$user_id' " ;
     if($result=$mysqli->query($sql)){
+        $_SESSION['numberQuote']= mysqli_num_rows($result);
         if(mysqli_num_rows($result)>0){
-            $_SESSION['numberQuote']= mysqli_num_rows($result);
+            // $_SESSION['numberQuote']= mysqli_num_rows($result);
             echo " <div class='alert alert-success' role='alert'>
             You have total ". $_SESSION['numberQuote']." quotes so far
           </div> ";

@@ -4,7 +4,7 @@ include("connection.php");
 
 // Testing 
 // $_SESSION['logIn'] = 1;
-echo "SESSION['logIn'] loadNote.php will be: ".$_SESSION['logIn']."     need something";
+
 
 
 

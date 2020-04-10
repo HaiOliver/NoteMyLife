@@ -29,7 +29,6 @@ if ($num_row >= 1) {
     if ($password == $row['userPassword']) {
        
         $_SESSION['logIn'] = $row['user_id'];
-        
         $_SESSION['email'] = $row['email'];
         
         echo'yes';
