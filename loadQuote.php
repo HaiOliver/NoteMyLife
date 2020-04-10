@@ -15,7 +15,7 @@ if(isset($user_id)){
         $_SESSION['numberQuote']= mysqli_num_rows($result);
         if(mysqli_num_rows($result)>0){
             // $_SESSION['numberQuote']= mysqli_num_rows($result);
-            echo " <div class='alert alert-success' role='alert'>
+            echo " <div class='alert alert-primary' role='alert'>
             You have total ". $_SESSION['numberQuote']." quotes so far
           </div> ";
             

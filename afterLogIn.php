@@ -10,12 +10,24 @@ session_start();
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-     
+     <!-- // important -->
     <script src='loadNumber.js'>
-        var testAjax = giveUp();
-        alert("test AJAX"+testAjax)
-        console.log("result in afterLogIn.php: "+ testAjax)
+        
+    //     createNoteSection();
 
+    //     $(function(){
+    //         for(let i = 1; i<= numberNote ;i++ ){
+    //         console.log("loop number: "+ i)
+    //         $("#deleteButton"+i).on("click",function(){
+    //         console.log("note in Ajax called: "+i);
+    //         $("#note"+i).remove();
+    //         $("#saveButton"+i).remove();
+    //         $("#deleteButton"+i).remove();
+    //         // Delete Note From DB
+    //         deleteNoteOnDB(i);
+    // })
+        
+}} )
        
     </script> 
      <!-- IMPORTANT Load myNotes.js -->
@@ -34,18 +46,17 @@ session_start();
 
 
     <title>Hello, world!</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
     <!-- <script src="myNotes.js"></script> -->
 
     <?php
 
     // user exist on Database
     // session_start();
-    $message = "session_start after ajax";
-echo "<script type='text/javascript'>alert('$message');</script>";
+    
 if(isset($_SESSION['logIn'])){
     $email = $_SESSION['email'];
     $user_id = $_SESSION['logIn'];
@@ -103,12 +114,7 @@ if(isset($_SESSION['logIn'])){
     <script type="text/Javascript">
         // set numberNote respond to Database
         numberNote = 0;
-        // var numberQuote =  echo $numberQuote ;
-
-
         numberQuote = 0;
-       
-        
         numberVideo = 0;
         numberImage = 0;
 
@@ -123,10 +129,10 @@ if(isset($_SESSION['logIn'])){
             numberVideo = convertObject[2];
             numberImage = convertObject[3];
 
-            console.log("callBack note: "+numberNote);
-            console.log("callBack quote: "+numberQuote);
-            console.log("callBack video: "+numberVideo);
-            console.log("callBack Image: "+numberImage);
+            // console.log("callBack note: "+numberNote);
+            // console.log("callBack quote: "+numberQuote);
+            // console.log("callBack video: "+numberVideo);
+            // console.log("callBack Image: "+numberImage);
             
 }
 
@@ -323,12 +329,12 @@ if(isset($_SESSION['logIn'])){
         
         // Note section =========================================================
 
-        function saveNote(numberNote) {
+        function saveNote(currentNote) {
             
-            var value = document.getElementById("note" + numberNote).value;
+            var value = document.getElementById("note" + currentNote).value;
            
-            console.log("node value in saveNote : "+ value)
-            var data = {'noteContent': value} ;
+            console.log("value of note in saveNote() : "+ value)
+            // var data = {'noteContent': value} ;
 
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
@@ -342,7 +348,10 @@ if(isset($_SESSION['logIn'])){
             xhttp.send("noteContent="+value);
 
             // Automatically create new note
-            createNoteSection(numberNote);
+            // Testing ========================
+            
+            createNoteSection();
+            // createNoteSection(numberNote);
 
         
         }
@@ -385,11 +394,11 @@ if(isset($_SESSION['logIn'])){
 
         function createNoteSection() {
 
-            numberNote = numberNote + 1;
-            var localNumber = numberNote;
+            // numberNote = numberNote + 1;
+            var localNumber = numberNote + 1;
             
             let i = document.createElement("textarea");
-            i.id = "note" + numberNote ;
+            i.id = "note" + localNumber ;
             i.cols = "40"
             i.style.opacity = "0.7"
             i.style.marginTop = "30px"
@@ -405,7 +414,8 @@ if(isset($_SESSION['logIn'])){
             let saveBtn = document.createElement("button")
             //Add Save to button
             var addSave = document.createTextNode("Save")
-            // Add Save word into button  
+            // Add Save word into button 
+
             saveBtn.appendChild(addSave)
 
             // saveBtn.id = "saveButton" + numberNote
@@ -418,6 +428,13 @@ if(isset($_SESSION['logIn'])){
             document.getElementById("noteSection").appendChild(saveBtn)
 
             console.log("saveButton id :  ", saveBtn.id)
+
+            
+            //Tesintg=================================================
+            numberNote = localNumber
+
+
+            //=========================================
 
             //Set onlick event
             saveBtn.onclick = function () {
@@ -458,16 +475,19 @@ if(isset($_SESSION['logIn'])){
        //Main function call everything
         onload = function () {
             createNoteSection();
+            
+            
 
-            $(function(){
-                for(let i = 1; i<= numberNote ;i++ ){
-                    $("#deleteButton"+i).on("click",function(){
-                        console.log("note in Ajax called: "+i);
+            $(document).ready(function(){
+                for(let i = 1; i< 100 ;i++ ){
+                    
+                    $("#deleteButton"+i).on("click",function(){                      
                         $("#note"+i).remove();
-                        $("#saveButton"+i).remove();
                         $("#deleteButton"+i).remove();
                         // Delete Note From DB
                         deleteNoteOnDB(i);
+
+                    
                 })
                     
             }} )
@@ -505,14 +525,19 @@ if(isset($_SESSION['logIn'])){
 
     <!-- note start here -->
     <div class="container-fluid">
-        <div class="alert alert-danger center-block">Welcome <?php
+        <div class="alert alert-success alert-dismissible center-block">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        Welcome <?php
         if(isset($_SESSION['signUp'])){
             echo"new user. Start create your own notes. Have fun !!";
         }else{
             echo "back! ".$email;
         } 
 
-?> </div>
+        ?> 
+
+        </div>
+        
         <div class="row">
             <!-- List to do -->
             <div class="col-sm-3 ">

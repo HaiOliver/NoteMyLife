@@ -14,7 +14,7 @@ if(isset($user_id)){
     if($result=$mysqli->query($sql)){
         if(mysqli_num_rows($result)>0){
             $_SESSION['numberImage'] = mysqli_num_rows($result);
-            echo " <div class='alert alert-success' role='alert'>
+            echo " <div class='alert alert-primary' role='alert'>
             You have total ". $_SESSION['numberImage']." images so far 
           </div> ";
             while($row = mysqli_fetch_assoc($result)){

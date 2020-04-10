@@ -14,7 +14,7 @@ if(isset($user_id)){
     if( $result= mysqli_query($mysqli,$sql)){
         if(mysqli_num_rows($result)>0){
             $_SESSION['numberVideo'] = mysqli_num_rows($result);
-            echo " <div class='alert alert-success' role='alert'>
+            echo " <div class='alert alert-primary' role='alert'>
             You have total ". $_SESSION['numberVideo']." videos so far
           </div> ";
             while( $row = mysqli_fetch_assoc($result)){

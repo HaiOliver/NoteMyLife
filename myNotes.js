@@ -3,7 +3,7 @@ $(function () {
     $.ajax({
         url: "loadNote.php",
         success: function (data, status, xhr) {
-            //alert("server response from loadNote.php->myNote.js->afterLogIn.php " + data);
+            alert("server response from loadNote.php->myNote.js->afterLogIn.php " + data);
             $("#noteSection").html(data);
         },
         error: function () {
@@ -15,7 +15,7 @@ $(function () {
     $.ajax({
         url: "loadQuote.php",
         success: function (data, status, xhr) {
-            alert("server response from loadQuote.php->myNote.js->afterLogIn.php " + data);
+            //alert("server response from loadQuote.php->myNote.js->afterLogIn.php " + data);
             $("#blockQuote").html(data);
 
         },

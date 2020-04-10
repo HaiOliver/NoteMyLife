@@ -9,7 +9,6 @@ $sql = " DELETE FROM noteContent WHERE note_id = $node_id";
 if($mysqli->query($sql)===TRUE){
     echo "deleted successful from DB";
 }else{
-    
     echo "Delete fail !!!!!".$mysqli->error; 
 }
 

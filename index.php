@@ -44,10 +44,8 @@
               url: "pcheck.php",
               data: {emailLogIn: email, passwordLogIn: password},
               success: function(data,status, xhr){
-               alert(data);
-               
-               console.log("type: "+typeof(data));
-                console.log("data will be in success():"+data);
+              //  alert(data);
+              
                 if(data == 'yes'){
                   
                   $("#logInMessage").html("<div class='alert alert-success'> Success Log In</div>");
@@ -55,9 +53,7 @@
                   // direct after sign up
                                  
                   window.location="afterLogIn.php";
-                  
-          
-                    
+        
                 } else if (data =='no'){
                   $("#logInMessage").html("<div class='alert alert-danger'>User have not signed up yet.Please Sign up ! </div>");
 
